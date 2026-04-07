@@ -100,6 +100,12 @@ router.get('/articles/:id', async (req, res) => {
   }
 });
 
+
+router.get('/test-json-res', async (req, res) => {
+  res.json({ message: 'Hello, World!' });
+});
+
+
 router.get('/dashboard', async (req, res) => {
   try {
     const [
