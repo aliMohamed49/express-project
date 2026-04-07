@@ -6,7 +6,7 @@ const path = require('path');
 const connectDB = require('./config/db');
 const webRoutes = require('./routes/web');
 const apiRoutes = require('./routes/api');
-
+//
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 
