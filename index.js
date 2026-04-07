@@ -30,12 +30,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
-connectDB()
-  .catch((err) => {
-    console.error('Error connecting to MongoDB:', err.message);
-  })
-  .finally(() => {
-    app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
-    });
-  });
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+connectDB().catch((err) => {
+  console.error('Error connecting to MongoDB:', err.message);
+});
