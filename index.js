@@ -53,6 +53,16 @@ app.get('/articles' , async (req, res) => {
 });
 
 
+app.get('/articles-page', async (req, res) => {
+  try {
+    const articles = await Article.find().sort({ likes: -1, _id: -1 });
+    res.render('articles.ejs', { articles });
+  } catch (err) {
+    res.status(500).send('Failed to load articles page');
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
