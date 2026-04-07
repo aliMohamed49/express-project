@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title, siteName }) %>
+<body>
+  <%- include('../partials/nav') %>
+
+  <main class="shell page">
+    <section class="section-head">
+      <div>
+        <p class="eyebrow">Control Center</p>
+        <h1>Publishing Dashboard</h1>
+      </div>
+    </section>
+
+    <% if (errorMessage) { %>
+      <section class="alert"><%= errorMessage %></section>
+    <% } %>
+
+    <section class="stat-grid">
+      <article class="card stat-card">
+        <p>Articles</p>
+        <strong><%= stats.articleCount %></strong>
+      </article>
+      <article class="card stat-card">
+        <p>Authors</p>
+        <strong><%= stats.authorCount %></strong>
+      </article>
+      <article class="card stat-card">
+        <p>Categories</p>
+        <strong><%= stats.categoryCount %></strong>
+      </article>
+      <article class="card stat-card">
+        <p>Total Likes</p>
+        <strong><%= stats.totalLikes %></strong>
+      </article>
+    </section>
+
+    <section class="card table-wrap">
+      <h2>Top Articles</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Likes</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!topArticles.length) { %>
+            <tr>
+              <td colspan="4">No records available yet.</td>
+            </tr>
+          <% } %>
+          <% topArticles.forEach((article) => { %>
+            <tr>
+              <td><%= article.title %></td>
+              <td><%= article.author?.fullName || 'Editorial Team' %></td>
+              <td><%= article.likes || 0 %></td>
+              <td><%= new Date(article.createdAt).toLocaleDateString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title, siteName }) %>
+<body>
+  <%- include('../partials/nav') %>
+
+  <main class="shell page">
+    <section class="section-head">
+      <div>
+        <p class="eyebrow">Studio Notes</p>
+        <h1>About This Project</h1>
+      </div>
+    </section>
+
+    <% if (errorMessage) { %>
+      <section class="alert"><%= errorMessage %></section>
+    <% } %>
+
+    <section class="card prose">
+      <p>
+        Nova Journal is a refactored Express and EJS project structured for real-world growth.
+        It uses modular routes, reusable templates, and model relationships designed for scale.
+      </p>
+      <p>
+        The interface follows a modern editorial direction with bold typography, layered backgrounds,
+        and responsive behavior for both desktop and mobile users.
+      </p>
+    </section>
+
+    <section class="stat-grid compact">
+      <article class="card stat-card">
+        <p>Articles</p>
+        <strong><%= metrics.articleCount %></strong>
+      </article>
+      <article class="card stat-card">
+        <p>Authors</p>
+        <strong><%= metrics.authorCount %></strong>
+      </article>
+      <article class="card stat-card">
+        <p>Categories</p>
+        <strong><%= metrics.categoryCount %></strong>
+      </article>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

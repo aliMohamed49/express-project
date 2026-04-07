@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title, siteName }) %>
+<body>
+  <%- include('../partials/nav') %>
+
+  <main class="shell page">
+    <section class="section-head">
+      <div>
+        <p class="eyebrow">Reach Out</p>
+        <h1>Contact The Editorial Team</h1>
+      </div>
+    </section>
+
+    <section class="card contact-grid">
+      <div>
+        <h2>Let's build something memorable.</h2>
+        <p>Use this page as a polished contact destination. It is styled to match the rest of the platform.</p>
+        <ul class="contact-list">
+          <li>Email: editorial@novajournal.dev</li>
+          <li>Phone: +1 555 0142</li>
+          <li>Location: Creative District</li>
+        </ul>
+      </div>
+      <form class="contact-form" action="#" method="POST">
+        <label>
+          Name
+          <input type="text" placeholder="Your name" />
+        </label>
+        <label>
+          Email
+          <input type="email" placeholder="you@example.com" />
+        </label>
+        <label>
+          Message
+          <textarea rows="5" placeholder="Tell us what you're building"></textarea>
+        </label>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

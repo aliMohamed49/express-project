@@ -1,68 +1,41 @@
-const express = require('express');
-const mongoose = require('mongoose');
+require('dotenv').config();
 
-const Article = require('./models/Article');
+const express = require('express');
+const path = require('path');
+
+const connectDB = require('./config/db');
+const webRoutes = require('./routes/web');
+const apiRoutes = require('./routes/api');
 
 const app = express();
-//mongodb+srv://u9877236526_db_user:<db_password>@cluster1.evfrbng.mongodb.net/?appName=Cluster1
+const port = Number(process.env.PORT) || 3000;
 
-mongoose.connect('mongodb+srv://u9877236526_db_user:LNn7u33iBrE7Hu4c@cluster1.evfrbng.mongodb.net/?appName=Cluster1')
-.then(() => console.log('Connected to MongoDB'))
-.catch((err) => console.error('Error connecting to MongoDB:', err));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.locals.siteName = 'Nova Journal';
 
 app.use(express.json());
-const port = 3000;
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', webRoutes);
+app.use('/api', apiRoutes);
 
-
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
+app.use((req, res) => {
+  res.status(404).render('pages/not-found', { title: 'Not Found' });
 });
 
-app.get('/sum', (req, res) => {
-
-
-  res.render('ali.ejs', { num1: 5, num2: req.query.x , num3: req.query.y});
-
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
-
-// Create a new article
-app.post('/articles', async (req, res) => {
-  try {
-
-    const article = new Article();
-    article.title = req.body.title;
-    article.body = req.body.body;
-    article.likes = req.body.likes || 0;
-    await article.save();
-    res.status(201).json(article);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-
-app.get('/articles' , async (req, res) => {
-  try {
-    const articles = await Article.find();
-    res.json(articles);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-
-app.get('/articles-page', async (req, res) => {
-  try {
-    const articles = await Article.find().sort({ likes: -1, _id: -1 });
-    res.render('articles.ejs', { articles });
-  } catch (err) {
-    res.status(500).send('Failed to load articles page');
-  }
-});
-
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+connectDB()
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err.message);
+  })
+  .finally(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  });

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title, siteName }) %>
+<body>
+  <%- include('../partials/nav') %>
+
+  <main class="shell page">
+    <section class="section-head">
+      <div>
+        <p class="eyebrow">Knowledge Feed</p>
+        <h1>Article Library</h1>
+      </div>
+      <form class="search" method="GET" action="/articles">
+        <input name="q" value="<%= query %>" placeholder="Search title or content" />
+        <button type="submit">Search</button>
+      </form>
+    </section>
+
+    <% if (errorMessage) { %>
+      <section class="alert"><%= errorMessage %></section>
+    <% } %>
+
+    <% if (!articles.length) { %>
+      <section class="empty-state">
+        <h3>No matching articles</h3>
+        <p>Try another search keyword or insert data through the API endpoint.</p>
+      </section>
+    <% } %>
+
+    <section class="grid cards-grid">
+      <% articles.forEach((article) => { %>
+        <article class="card article-card">
+          <div class="card-top">
+            <span class="pill">
+              <%= article.category?.name || 'General' %>
+            </span>
+            <span class="likes"><%= article.likes || 0 %> likes</span>
+          </div>
+          <h3><%= article.title %></h3>
+          <p><%= article.body.slice(0, 160) %><%= article.body.length > 160 ? '...' : '' %></p>
+          <div class="card-bottom">
+            <span><%= article.author?.fullName || 'Editorial Team' %></span>
+            <a href="/articles/<%= article._id %>">Open Story</a>
+          </div>
+        </article>
+      <% }) %>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

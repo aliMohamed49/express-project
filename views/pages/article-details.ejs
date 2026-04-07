@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title, siteName }) %>
+<body>
+  <%- include('../partials/nav') %>
+
+  <main class="shell page page-article">
+    <section class="detail-hero card">
+      <p class="eyebrow">Article Spotlight</p>
+      <h1><%= article.title %></h1>
+      <div class="meta-row">
+        <span class="pill"><%= article.category?.name || 'General' %></span>
+        <span><%= article.author?.fullName || 'Editorial Team' %></span>
+        <span><%= article.likes || 0 %> likes</span>
+      </div>
+      <p class="detail-body"><%= article.body %></p>
+    </section>
+
+    <section class="section-head slim">
+      <h2>Related Reads</h2>
+    </section>
+
+    <section class="grid cards-grid related">
+      <% if (!relatedArticles.length) { %>
+        <div class="empty-state"><p>No related articles yet.</p></div>
+      <% } %>
+      <% relatedArticles.forEach((item) => { %>
+        <article class="card article-card small">
+          <h3><%= item.title %></h3>
+          <p><%= item.author?.fullName || 'Editorial Team' %></p>
+          <a href="/articles/<%= item._id %>">Read article</a>
+        </article>
+      <% }) %>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

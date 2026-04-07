@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title, siteName }) %>
+<body>
+  <%- include('../partials/nav') %>
+
+  <main class="shell page page-home">
+    <section class="hero-panel glow-panel">
+      <div>
+        <p class="eyebrow">Editorial Platform</p>
+        <h1>Design-Forward Publishing Experience</h1>
+        <p class="lead">A refined front-end for your article ecosystem with a cinematic visual style, rich spacing, and strong readability.</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="/articles">Explore Articles</a>
+          <a class="btn btn-ghost" href="/dashboard">View Dashboard</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <article>
+          <span>Total Featured</span>
+          <strong><%= featuredArticles.length %></strong>
+        </article>
+        <article>
+          <span>Likes In View</span>
+          <strong><%= totalLikes %></strong>
+        </article>
+      </div>
+    </section>
+
+    <% if (errorMessage) { %>
+      <section class="alert"><%= errorMessage %></section>
+    <% } %>
+
+    <section class="grid cards-grid">
+      <% featuredArticles.forEach((article) => { %>
+        <article class="card article-card">
+          <div class="card-top">
+            <span class="pill">
+              <%= article.category?.name || 'General' %>
+            </span>
+            <span class="likes">+<%= article.likes || 0 %> likes</span>
+          </div>
+          <h3><%= article.title %></h3>
+          <p><%= article.body.slice(0, 145) %><%= article.body.length > 145 ? '...' : '' %></p>
+          <div class="card-bottom">
+            <span><%= article.author?.fullName || 'Editorial Team' %></span>
+            <a href="/articles/<%= article._id %>">Read</a>
+          </div>
+        </article>
+      <% }) %>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>
